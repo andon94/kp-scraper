@@ -1,28 +1,70 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <TheHeader />
+    <router-view :items="items" @unfavorited="unfavorited" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import db from "./firebase/init";
+import TheHeader from "./components/TheHeader";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    TheHeader,
+  },
+  data() {
+    return {
+      items: null,
+    };
+  },
+  methods: {
+    fetchItems() {
+      db.collection("items")
+        .get()
+        .then((querySnapshot) => {
+          const documents = querySnapshot.docs.map((doc) => {
+            let arr = doc.data();
+            arr.id = doc.id;
+            return arr;
+          });
+          console.log("fetchItems()", documents);
+          this.items = documents;
+        })
+        .catch((err) => console.log(err));
+    },
+    unfavorited(item) {
+      let arr = [];
+      this.items.forEach((stateItem) => {
+        if (stateItem.id == item.id) {
+          stateItem.favorite = false;
+        }
+        arr.push(stateItem);
+      });
+      this.items = arr;
+    },
+  },
+  created() {
+    this.fetchItems();
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+:root {
+  --light: #e8e8e8;
+  --red: #f05454;
+  --blue: #30475e;
+  --dark: #222831;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
 </style>
