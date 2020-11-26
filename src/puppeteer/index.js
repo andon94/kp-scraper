@@ -12,34 +12,31 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 firebaseApp.firestore().settings({ timestampsInSnapshots: true });
 const puppeteer = require("puppeteer");
 
-let patagoniaL =
-  "https://www.kupujemprodajem.com/search.php?action=list&data%5Bpage%5D=1&data%5Bprev_keywords%5D=patagonia&data%5Border%5D=posted+desc&submit%5Bsearch%5D=Tra%C5%BEi&dummy=name&data%5Bkeywords_scope%5D=description&data%5Bkeywords%5D=patagonia+l";
-let patagoniaXl =
-  "https://www.kupujemprodajem.com/search.php?action=list&data%5Bpage%5D=1&data%5Bprev_keywords%5D=patagonia+l&data%5Border%5D=posted+desc&submit%5Bsearch%5D=Tra%C5%BEi&dummy=name&data%5Bkeywords_scope%5D=description&data%5Bkeywords%5D=patagonia+xl";
-let osprey =
-  "https://www.kupujemprodajem.com/search.php?action=list&data%5Bpage%5D=1&data%5Bprev_keywords%5D=patagonia&data%5Border%5D=posted+desc&submit%5Bsearch%5D=Tra%C5%BEi&dummy=name&data%5Bkeywords_scope%5D=description&data%5Bkeywords%5D=osprey";
-let fjallravenL =
-  "https://www.kupujemprodajem.com/search.php?action=list&data%5Bpage%5D=1&data%5Bprev_keywords%5D=patagonia+xl&data%5Border%5D=posted+desc&submit%5Bsearch%5D=Tra%C5%BEi&dummy=name&data%5Bkeywords_scope%5D=description&data%5Bkeywords%5D=fjallraven+l";
-let fjallravenXl =
-  "https://www.kupujemprodajem.com/search.php?action=list&data%5Bpage%5D=1&data%5Bprev_keywords%5D=fjallraven+l&data%5Border%5D=posted+desc&submit%5Bsearch%5D=Tra%C5%BEi&dummy=name&data%5Bkeywords_scope%5D=description&data%5Bkeywords%5D=fjallraven+xl";
-let scarpa45 =
-  "https://www.kupujemprodajem.com/search.php?action=list&data%5Bpage%5D=1&data%5Bprev_keywords%5D=fjallraven+xl&data%5Border%5D=posted+desc&submit%5Bsearch%5D=Tra%C5%BEi&dummy=name&data%5Bkeywords_scope%5D=description&data%5Bkeywords%5D=scarpa+45";
+let osprey = "https://www.kupujemprodajem.com/search.php?action=list&data%5Bpage%5D=1&data%5Bprev_keywords%5D=patagonia&data%5Border%5D=posted+desc&submit%5Bsearch%5D=Tra%C5%BEi&dummy=name&data%5Bkeywords_scope%5D=description&data%5Bkeywords%5D=osprey";
+let fjallravenL = "https://www.kupujemprodajem.com/search.php?action=list&data%5Bpage%5D=1&data%5Bprev_keywords%5D=patagonia+xl&data%5Border%5D=posted+desc&submit%5Bsearch%5D=Tra%C5%BEi&dummy=name&data%5Bkeywords_scope%5D=description&data%5Bkeywords%5D=fjallraven+l";
+let scarpa45 = "https://www.kupujemprodajem.com/search.php?action=list&data%5Bpage%5D=1&data%5Bprev_keywords%5D=fjallraven+xl&data%5Border%5D=posted+desc&submit%5Bsearch%5D=Tra%C5%BEi&dummy=name&data%5Bkeywords_scope%5D=description&data%5Bkeywords%5D=scarpa+45";
+let mammut45 = 'https://www.kupujemprodajem.com/search.php?action=list&data%5Bpage%5D=1&data%5Bprev_keywords%5D=mammut+xl&data%5Border%5D=posted+desc&submit%5Bsearch%5D=Tra%C5%BEi&dummy=name&data%5Bkeywords_scope%5D=description&data%5Bkeywords%5D=mammut+45'
+let millet45 = 'https://www.kupujemprodajem.com/search.php?action=list&data%5Bpage%5D=1&data%5Bprev_keywords%5D=mammut+xl&data%5Border%5D=posted+desc&submit%5Bsearch%5D=Tra%C5%BEi&dummy=name&data%5Bkeywords_scope%5D=description&data%5Bkeywords%5D=millet+45'
+let salewa45 = 'https://www.kupujemprodajem.com/search.php?action=list&data%5Bpage%5D=1&data%5Bprev_keywords%5D=mammut+xl&data%5Border%5D=posted+desc&submit%5Bsearch%5D=Tra%C5%BEi&dummy=name&data%5Bkeywords_scope%5D=description&data%5Bkeywords%5D=salewa+45'
+let columbia45 = 'https://www.kupujemprodajem.com/search.php?action=list&data%5Bpage%5D=1&data%5Bprev_keywords%5D=mammut+xl&data%5Border%5D=posted+desc&submit%5Bsearch%5D=Tra%C5%BEi&dummy=name&data%5Bkeywords_scope%5D=description&data%5Bkeywords%5D=columbia+45'
+let haglofs45 = 'https://www.kupujemprodajem.com/search.php?action=list&data%5Bpage%5D=1&data%5Bprev_keywords%5D=mammut+xl&data%5Border%5D=posted+desc&submit%5Bsearch%5D=Tra%C5%BEi&dummy=name&data%5Bkeywords_scope%5D=description&data%5Bkeywords%5D=haglofs+45'
+let garmont45 = 'https://www.kupujemprodajem.com/search.php?action=list&data%5Bpage%5D=1&data%5Bprev_keywords%5D=mammut+xl&data%5Border%5D=posted+desc&submit%5Bsearch%5D=Tra%C5%BEi&dummy=name&data%5Bkeywords_scope%5D=description&data%5Bkeywords%5D=garmont+45'
+let bergans45 = 'https://www.kupujemprodajem.com/search.php?action=list&data%5Bpage%5D=1&data%5Bprev_keywords%5D=mammut+xl&data%5Border%5D=posted+desc&submit%5Bsearch%5D=Tra%C5%BEi&dummy=name&data%5Bkeywords_scope%5D=description&data%5Bkeywords%5D=bergans+45'
+let arcteryx45 = 'https://www.kupujemprodajem.com/search.php?action=list&data%5Bpage%5D=1&data%5Bprev_keywords%5D=mammut+xl&data%5Border%5D=posted+desc&submit%5Bsearch%5D=Tra%C5%BEi&dummy=name&data%5Bkeywords_scope%5D=description&data%5Bkeywords%5D=arcteryx+45'
+let marmot45 = 'https://www.kupujemprodajem.com/search.php?action=list&data%5Bpage%5D=1&data%5Bprev_keywords%5D=mammut+xl&data%5Border%5D=posted+desc&submit%5Bsearch%5D=Tra%C5%BEi&dummy=name&data%5Bkeywords_scope%5D=description&data%5Bkeywords%5D=marmot+45'
 
-let arr = [
-  patagoniaL,
-  patagoniaXl,
-  osprey,
-  fjallravenL,
-  fjallravenXl,
-  scarpa45,
-];
+
+
+
+let arr = [osprey, fjallravenL, scarpa45, mammut45, millet45, salewa45, columbia45, haglofs45, garmont45, bergans45, scarpa45, arcteryx45, marmot45]
+
 
 arr.forEach((pageUrl) => {
   (async () => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(pageUrl, { waitUntil: "networkidle2" });
-
+    
     let data = await page.evaluate(() => {
       let titles = document.querySelectorAll(".adName");
       let titleArr = [];
@@ -87,14 +84,18 @@ arr.forEach((pageUrl) => {
     let collection = firebaseApp.firestore().collection("items");
 
     data.finalArr.forEach((item) => {
+      item.time = firebase.firestore.FieldValue.serverTimestamp()
       collection
         .where("link", "==", item.link)
         .get()
         .then((snapshot) => {
           if (snapshot.docs.length == 0) {
             collection.add(item).then(() => console.log("sent"));
+          } else{
+            console.log('exists in database')
           }
-        });
+        })
+        .catch(err => console.log(err))
     });
   })();
 });

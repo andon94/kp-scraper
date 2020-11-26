@@ -5,34 +5,43 @@
       <span>{{ checked }}</span> Favorited: <span>{{ favorited }}</span>
     </div>
     <div class="item" v-for="(item, i) in items" :key="i">
-      <div class="item-header">
-        <div class="img"><img :src="item.image" :alt="item.title" /></div>
-        <div
-          class="title"
-          v-bind:class="{ color1: item.checked, color2: item.favorite }"
-        >
-          {{ item.title }}
+      <div v-if="!item.checked">
+        <div class="item-header">
+          <div class="img"><img :src="item.image" :alt="item.title" /></div>
+          <div
+            class="title"
+          >
+            <a :href="item.link" v-bind:class="{ color2: item.favorite }">{{ item.title }}</a>
+          </div>
+          <div class="price">{{ item.price }}</div>
         </div>
-        <div class="price">{{ item.price }}</div>
+        <div class="item-columns">
+          <div class="item-main">
+            <div>
+              <div class="posted">{{ toDateTime(item.time.seconds) }}</div>
+              <div class="add-info">
+                <div class="city">{{ item.city }}</div>
+                <div class="view">{{ item.view }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="item-nav">
+            <div class="add" @click="starItem(item)">
+              <img :src="star" alt="star" />
+            </div>
+            <div class="check" @click="checkItem(item)">
+              <img :src="check" alt="check" />
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="item-columns">
-        <div class="item-main">
-          <div>
-            <div class="posted">{{ item.posted }}</div>
-            <div class="view">{{ item.view }}</div>
-          </div>
-          <div class="item-main-div">
-            <div class="city">{{ item.city }}</div>
-            <div class="link"><a :href="item.link">link do proizvoda</a></div>
-          </div>
+      <div v-if="item.checked" class="checked-div">
+        <div class="checked-info">
+          <div class="checked-title">{{item.title}}</div>
+          <div class="checked-price">{{item.price}}</div>
         </div>
-        <div class="item-nav">
-          <div class="add" @click="starItem(item)">
-            <img :src="star" alt="star" />
-          </div>
-          <div class="check" @click="checkItem(item)">
-            <img :src="check" alt="check" />
-          </div>
+        <div class="checked-button" @click="uncheckItem(item)">
+          <img :src="check" alt="check" />
         </div>
       </div>
       <hr />
@@ -64,7 +73,6 @@ export default {
         .doc(item.id)
         .update({
           favorite: true,
-          checked: true,
         })
         .then(() => {
           console.log("updated");
@@ -84,6 +92,23 @@ export default {
         })
         .catch(() => console.log(item));
     },
+    uncheckItem(item) {
+      db.collection("items")
+        .doc(item.id)
+        .update({
+          checked: false,
+        })
+        .then(() => {
+          console.log("checked");
+          item.checked = false;
+        })
+        .catch(() => console.log(item));
+    },
+    toDateTime(secs) {
+        var t = new Date(1970, 0, 1);
+        t.setSeconds(secs)
+        return t.toLocaleString("de-AT", {day: "numeric", month: "numeric", year: 'numeric', hour: "numeric", minute: "numeric"});
+    }
   },
   computed: {
     checked() {
@@ -135,6 +160,11 @@ export default {
       font-weight: bold;
       color: var(--dark);
 
+      a {
+        text-decoration: none;
+        color: var(--blue);
+      }
+
       .img {
         margin-right: 1rem;
         background-color: var(--blue);
@@ -154,7 +184,7 @@ export default {
     }
     .item-columns {
       display: grid;
-      grid-template-columns: 50% 50%;
+      grid-template-columns: 70% 30%;
 
       .item-main {
         display: flex;
@@ -169,17 +199,14 @@ export default {
         .posted {
           color: var(--dark);
           font-weight: bold;
+          font-size: 0.75rem;
         }
         .view {
           color: var(--red);
-          font-size: 0.8rem;
         }
-        .link {
-          font-size: 0.7rem;
-          a {
-            text-decoration: none;
-            color: var(--blue);
-          }
+        .add-info{
+          display: flex;
+          justify-content: space-between;
         }
       }
 
@@ -196,6 +223,27 @@ export default {
             max-width: 25px;
           }
         }
+      }
+    }
+  }
+
+  .checked-div{
+    font-size: 0.7rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    padding-bottom: 0.2rem;
+    .checked-info{
+      display: grid;
+      grid-template-columns: 70% 30%;
+      .checked-price{
+        padding-left: 1rem;
+      }
+    }
+    .checked-button{
+      justify-self: end;
+      img{
+        max-width: 25px;
       }
     }
   }
